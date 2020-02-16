@@ -1,0 +1,19 @@
+#renamed mental.global.2017
+d.tt = mental.global.2017
+
+#removed non numerical data from table
+
+Global.ment.sub = subset(mental.global.2017, select = -c(Entity,Year,Code) )
+
+# ran correlation for numerical data 
+
+correlation.ment=cor(Global.ment.sub)
+
+
+#Installed Corrplot Packages 
+install.packages("corrplot")
+library(corrplot)
+
+#Display data in corrolation plot
+cor<- corrplot(correlation.ment)
+corrplot.mixed(correlation.ment)
