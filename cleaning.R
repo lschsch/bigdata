@@ -1,40 +1,40 @@
+##
 #
 #
-#
-#
-#
-#
-#
-#
-#
+#  GOOD CLEANING
+# "C:/folder/folder/Desktop/file.csv"
 # read csv
-ment.and.sub <- read.csv("prevalence-by-mental-and-substance-use-disorder.csv",
+ment.and.sub <- read.csv("prevalence-by-mental-and-substance-use-disorder-c.csv",
                          header = TRUE, sep = ",",stringsAsFactors = FALSE)
-#
-?read.csv
 
 
+# to get a list of all the countries stored as country.num
 country.num <- unique(ment.and.sub$Entity)
-country.num
 
+# to check how many unique enities there is data for
+how.many.entities <- length(country.num)
 
-# to find the rows that are world
+# this data includes entities which are not countries. most notably, the region
+#  "World", which likely is the data from all countries combined, is removed
+
+# to find the rows which contain data for "World"
 world.rows <- which(ment.and.sub$Entity == "World")
-world.rows
 
-
-# to remove the rows that are world
+# to remove the rows which contain data for "World"
 new.ment.and.sub <- ment.and.sub[-c(world.rows),]
-new.ment.and.sub
+
+# to check there are no rows left with data for "World"
 world.rows.gone <- which(new.ment.and.sub$Entity == "World")
 world.rows.gone
 
-# now lets look at the other things we don't want
+# instead of going through this proccess for every entity to be removed, look at
+#  the list of entities to see which are to be removed (now without world data)
 rm.ent <- unique(new.ment.and.sub$Entity)
 rm.ent
 
-# to remove the rest of things we don't want
-
+# going through this list to get all entities which are not countries, but
+#   instead are regions, to make a vector of all the entities for which to
+#   remove data, gives the vector
 dont.want <- c("Andean Latin America", "Central Asia", "Central Europe", 
                "Central Europe, Eastern Europe, and Central Asia", 
                "Central Latin America", "Central Sub-Saharan Africa", 
@@ -48,103 +48,33 @@ dont.want <- c("Andean Latin America", "Central Asia", "Central Europe",
                "Sub-Saharan Africa", "Tropical Latin America", 
                "United Kingdom", "Western Europe", "Western Sub-Saharan Africa")
 
-dont.want
+# the length of this vector indicates how many entities are being removed
 length(dont.want)
+## 29
 
-# --- freestyle coding -----
-# data frame new.ment.and.sub
-str(new.ment.and.sub)
+# to make a loop which removes all rows from the data frame new.ment.and.sub 
+#   which contain data for regions which are to be ignored
 
-# make copy called d.t
+# first make copy called d.t
 d.t <- new.ment.and.sub
 
 # let's go through Entity and exclude all entries in dont.want
 for(i in 1:length(dont.want)){
   
-  #i <- 1
-  print(i)
-  print(paste("exclude ", dont.want[i], sep = ""))
-  # temprary data set
-  # which( d.t$Entity == dont.want[i]) # where are the specific names
-  print(paste ("how many entries: ", length(which(d.t$Entity == dont.want[i])), 
-                                           sep = ""))
-  
+  # changes d.t to only contain rows with entities which are not listed in 
+  #  dont.want
   d.t <- d.t[d.t$Entity != dont.want[i],]
-  # (d.t$Entity == dont.want[i])
-  #print(length(which(d.t$Entity == dont.want[i])))
-  print(paste ("how many entries after: ", length(which(d.t$Entity == dont.want[i])), 
-               sep = ""))
+  
 }
 
 # go and check if it is indeed gone
-unique(d.t$Entity)
+gone <- unique(d.t$Entity)  # gone is a vector of the 201 countries we want to 
+#   to keep as Entities.
 
-# make a loop to subset per country
-head(d.t)
+# making a copy of the cleaned data frame with a better name
+#  name the data frame to indicate it has all the countries and all the years
+all.candy <- d.t
 
-d.tt <- d.t[d.t$Year == "2017",]
-d.tt$Year
-
-head(d.tt)
-
-# extra challeng -> for each country get regression coeeficient between two 
-# disorders and plot them against something... #ME like country GDP
-
-
-# -------
-
-#
-
-
-
-for(i in 1:length(dont.want)){
-  if(new.ment.and.sub$Entity == dont.want[i]){
-    store.result <- which(new.ment.and.sub$Entity == dont.want[i])
-  }
-}
-warnings()
-store.result
-
-last <- which(new.ment.and.sub$Entity == "Western Sub-Saharan Africa")
-last
-
-
-sdis <- which
-sdifind <- find(SDI, mode = "any", numeric = FALSE, simple.words = TRUE )
-?which
-
-# we want to remove everything 
-
-### lets try deleting afghanistan
-# test.rows <- which(ment.and.sub$Entity == "Afghanistan")
-# test.rows
-# 
-# test.ment.and.sub <- ment.and.sub[-c(test.rows),]
-# head(test.ment.and.sub)
-# 
-# test.ment.and.sub
-# 
-# new.ment.and.sub
-
-
-##
-
-storage.r <- rep(na,)
-
-
-# clean 
-
-
-
-
-
-
-# getting rid of rows
-# kick.out <-  c(33,5,420)
-# ment.and.sub <- -kick.out
-
-#
-#
 #
 #
 #
